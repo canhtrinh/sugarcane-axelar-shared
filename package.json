@@ -1,0 +1,51 @@
+{
+  "name": "sugarcane-axelar-test",
+  "description": "Contracts for Sugarcane Axelar Test",
+  "version": "1.0.0",
+  "scripts": {
+    "axelar-test-ethereum": "npx hardhat run ./scripts/test_bridge_outbound-basic.ts --network testnetChainEthereum",
+    "axelar-test-polygon": "npx hardhat run ./scripts/test_bridge_outbound-basic.ts --network testnetChainPolygon"
+  },
+  "husky": {
+    "hooks": {
+      "pre-push": "npm run prettier:solidity"
+    }
+  },
+  "devDependencies": {
+    "@axelar-network/axelar-gmp-sdk-solidity": "^5.6.4",
+    "@axelar-network/axelarjs-sdk": "^0.13.8",
+    "@ethersproject/experimental": "^5.7.0",
+    "@nomicfoundation/hardhat-ethers": "^3.0.5",
+    "@nomicfoundation/hardhat-toolbox": "^4.0.0",
+    "@nomicfoundation/hardhat-verify": "^2.0.2",
+    "@openzeppelin/contracts": "^5.0.1",
+    "@openzeppelin/contracts-upgradeable": "^5.0.1",
+    "@openzeppelin/hardhat-upgrades": "^3.0.0",
+    "@typechain/ethers-v6": "^0.5.1",
+    "@typechain/hardhat": "^9.1.0",
+    "@types/chai": "^4.3.11",
+    "@types/mocha": "^10.0.6",
+    "@types/node": "^20.10.5",
+    "@types/sinon-chai": "^3.2.12",
+    "@typescript-eslint/eslint-plugin": "^6.15.0",
+    "@typescript-eslint/parser": "^6.15.0",
+    "bignumber.js": "^9.1.2",
+    "dotenv": "^16.3.1",
+    "eslint": "^8.56.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-config-standard": "^17.1.0",
+    "eslint-plugin-import": "^2.29.1",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^5.0.1",
+    "eslint-plugin-promise": "^6.1.1",
+    "hardhat": "^2.19.2",
+    "hardhat-contract-sizer": "^2.10.0",
+    "husky": "^8.0.3",
+    "prettier": "^3.1.1",
+    "prettier-plugin-solidity": "^1.2.0",
+    "solhint": "^4.0.0",
+    "solhint-plugin-prettier": "^0.1.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.3"
+  }
+}
