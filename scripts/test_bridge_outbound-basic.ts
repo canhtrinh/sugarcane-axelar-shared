@@ -79,7 +79,7 @@ async function main() {
     gasToken: GasToken.MATIC,
   };
 
-  const inputTokenAmount = 1.2;
+  const inputTokenAmount = 1;
   const inputTokenAmountWithDecimals = addDecimals(inputTokenAmount, 6);
 
   const sourceChainSender = deployer.address;
@@ -143,7 +143,7 @@ async function main() {
     "0",
     {
       showDetailedFees: true,
-      transferAmount: 1, // In terms of symbol, not unit denom, e.g. use 1 for 1 axlUSDC, not 1000000
+      transferAmount: inputTokenAmount, // In terms of symbol, not unit denom, e.g. use 1 for 1 axlUSDC, not 1000000
       sourceContractAddress: sourceChainDetails.outbound,
       destinationContractAddress: destinationChainDetails.inbound,
       tokenSymbol: "aUSDC",
