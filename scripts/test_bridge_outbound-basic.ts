@@ -66,6 +66,7 @@ async function main() {
     name: "ethereum-sepolia",
     chainId: 11155111,
     outbound: "0xAe9a44737c01FD342D4A976bBbEf4991eFCCcf20",
+    inbound: "0x220ccbcbAd6E8975D9d150B9eb6Ab48E44138f25",
     aUSDC: "0x254d06f33bdc5b8ee05b2ea472107e300226659a",
     gasToken: GasToken.ETH,
   };
@@ -73,6 +74,7 @@ async function main() {
     name: "Polygon",
     chainId: 80001,
     outbound: "0x5430ae90Ed80ba573b9CF12C705EF06C2a3DDeB9",
+    inbound: "0x03c03fe4cf1eb286d74f38ad51151473B3F46350",
     aUSDC: "0x2c852e740B62308c46DD29B982FBb650D063Bd07",
     gasToken: GasToken.MATIC,
   };
@@ -121,6 +123,8 @@ async function main() {
     deployer.address
   );
 
+  console.log({ balanceBefore, tokenBalanceBefore });
+
   // // // // // // // // // // // // // // // // // // // //
   // CALCULATE BRIDGE COST
   // // // // // // // // // // // // // // // // // // // //
@@ -131,35 +135,18 @@ async function main() {
   const api = new AxelarQueryAPI(queryConfig);
 
   const axelarFeeBreakdown = (await api.estimateGasFee(
-    // sourceChainId: EvmChain | string,
     sourceChain,
-    // destinationChainId: EvmChain | string,
     destinationChain,
-
-    // sourceChainTokenSymbol: GasToken | string,
-    // "ETH",
     sourceGasToken,
-    // gasLimit: number = DEFAULT_ESTIMATED_GAS, = 700k
     500000,
-    // gasMultiplier = 1.1,
     1.1,
-    // minGasPrice = "0",
     "0",
-    // gmpParams?: GMPParams
     {
-      // showDetailedFees: boolean;
       showDetailedFees: true,
-      // // transferAmount: number; // In terms of symbol, not unit denom, e.g. use 1 for 1 axlUSDC, not 1000000
-      // transferAmount: inputTokenAmount,
-      // // sourceContractAddress: string;
-      // sourceContractAddress: deployedAddresses(chainDetails.chain.name).dapp
-      //   .MAILBOX_OUTBOUND,
-      // // destinationContractAddress: string;
-      // destinationContractAddress: deployedAddresses(
-      //   destinationChainDetails.chain.name
-      // ).dapp.MAILBOX_INBOUND,
-      // // tokenSymbol: string;
-      // tokenSymbol: chainDetails.axelar.bridgeTokenSymbol,
+      transferAmount: 1, // In terms of symbol, not unit denom, e.g. use 1 for 1 axlUSDC, not 1000000
+      sourceContractAddress: sourceChainDetails.outbound,
+      destinationContractAddress: destinationChainDetails.inbound,
+      tokenSymbol: "aUSDC",
     } as any
   )) as AxelarQueryAPIFeeResponse;
   const bridgeCost = BigNumber(axelarFeeBreakdown.baseFee)
@@ -171,6 +158,8 @@ async function main() {
   console.log(axelarFeeBreakdown);
   console.log("\n-=-=-=- bridgeCost");
   displayCost("bridgeCost", bridgeCost);
+
+  console.log({ deployer: deployer.address, sourceTokenAddress });
 
   // // // // // // // // // // // // // // // // // // // //
   // APPROVE THE BRIDGE
